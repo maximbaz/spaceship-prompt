@@ -7,8 +7,8 @@
 # ------------------------------------------------------------------------------
 
 SPACESHIP_GIT_STATUS_SHOW="${SPACESHIP_GIT_STATUS_SHOW=true}"
-SPACESHIP_GIT_STATUS_PREFIX="${SPACESHIP_GIT_STATUS_PREFIX=" "}"
-SPACESHIP_GIT_STATUS_SUFFIX="${SPACESHIP_GIT_STATUS_SUFFIX=""}"
+SPACESHIP_GIT_STATUS_PREFIX="${SPACESHIP_GIT_STATUS_PREFIX=""}"
+SPACESHIP_GIT_STATUS_SUFFIX="${SPACESHIP_GIT_STATUS_SUFFIX=" "}"
 SPACESHIP_GIT_STATUS_STASHED="${SPACESHIP_GIT_STATUS_STASHED="⏺"}"
 SPACESHIP_GIT_STATUS_UNMERGED="${SPACESHIP_GIT_STATUS_UNMERGED="⏺"}"
 SPACESHIP_GIT_STATUS_DELETED="${SPACESHIP_GIT_STATUS_DELETED="⏺"}"
@@ -32,8 +32,14 @@ SPACESHIP_GIT_STATUS_DIVERGED_COLOR="${SPACESHIP_GIT_STATUS_DIVERGED_COLOR="yell
 # Section
 # ------------------------------------------------------------------------------
 
-spaceship_git_status() {
+spaceship_async_job_load_git_status() {
   [[ $SPACESHIP_GIT_STATUS_SHOW == false ]] && return
+
+  async_job spaceship spaceship_async_job_git_status "$PWD"
+}
+
+spaceship_async_job_git_status() {
+  builtin cd -q "$1" 2>/dev/null
 
   spaceship::is_git || return
 
@@ -97,7 +103,15 @@ spaceship_git_status() {
     [[ "$is_behind" == true ]] && git_status+="%F{$SPACESHIP_GIT_STATUS_BEHIND_COLOR}$SPACESHIP_GIT_STATUS_BEHIND"
   fi
 
-  if [[ -n $git_status ]]; then
-    spaceship::section "" "$SPACESHIP_GIT_STATUS_PREFIX$git_status$SPACESHIP_GIT_STATUS_SUFFIX"
-  fi
+  echo "$git_status"
+}
+
+spaceship_git_status() {
+  [[ -z "${SPACESHIP_ASYNC_RESULTS[spaceship_async_job_git_status]}" ]] && return
+
+  spaceship::section \
+    "" \
+    "$SPACESHIP_GIT_STATUS_PREFIX" \
+    "${SPACESHIP_ASYNC_RESULTS[spaceship_async_job_git_status]}"\
+    "$SPACESHIP_GIT_STATUS_SUFFIX"
 }
