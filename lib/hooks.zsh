@@ -32,7 +32,9 @@ spaceship_precmd_hook() {
   declare -gA SPACESHIP_ASYNC_RESULTS
 
   # Should it add a new line before the prompt?
-  [[ $SPACESHIP_PROMPT_ADD_NEWLINE == true ]] && echo -n "$NEWLINE"
+  [[ $UID == 0 ]] && SPACESHIP_PROMPT_NEED_NEWLINE=true
+  [[ $SPACESHIP_PROMPT_ADD_NEWLINE == true && $SPACESHIP_PROMPT_NEED_NEWLINE == true ]] && echo -n "$NEWLINE"
+  SPACESHIP_PROMPT_NEED_NEWLINE=true
 
   # Draw initial prompt (no async jobs started yet)
   PROMPT=$(spaceship::compose_prompt $SPACESHIP_PROMPT_ORDER)
