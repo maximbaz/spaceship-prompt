@@ -1,3 +1,13 @@
+# Changes in this fork
+
+- Much faster async prompt rendering using `zsh-async`
+  - Currently async sections: `git_branch`, `git_status`, `kubecontext`, `azure`
+- No more wrapper `git` section, use `git_branch` and `git_status` instead
+- My own implementation of "actionable" `git_status` section
+- Some PRs merged and issues fixed that are still open in upstream
+
+---
+
 <h1 align="center">
   <a href="https://github.com/denysdovhan/spaceship-prompt">
     <img alt="spaceship →~ prompt" src="https://cloud.githubusercontent.com/assets/3459374/21679181/46e24706-d34b-11e6-82ee-5efb3d2ba70f.png" width="400">
