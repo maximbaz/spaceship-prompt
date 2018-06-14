@@ -21,6 +21,7 @@ SPACESHIP_RUBY_COLOR="${SPACESHIP_RUBY_COLOR="red"}"
 # Show current version of Ruby
 spaceship_async_job_load_ruby() {
   [[ $SPACESHIP_RUBY_SHOW == false ]] && return
+
   # Show versions only for Ruby-specific folders
   [[ -f Gemfile || -f Rakefile || -n *.rb(#qN^/) ]] || return
 
@@ -28,7 +29,6 @@ spaceship_async_job_load_ruby() {
 }
 
 spaceship_async_job_ruby() {
-
   local ruby_version
 
   if spaceship::exists rvm-prompt; then
@@ -52,7 +52,6 @@ spaceship_async_job_ruby() {
 }
 
 spaceship_ruby() {
-
   [[ -z "${SPACESHIP_ASYNC_RESULTS[spaceship_async_job_ruby]}" ]] && return
 
   spaceship::section \
