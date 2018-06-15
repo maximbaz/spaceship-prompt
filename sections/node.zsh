@@ -29,8 +29,6 @@ spaceship_async_job_load_node() {
 }
 
 spaceship_async_job_node() {
-  [[ $SPACESHIP_NODE_SHOW == false ]] && return
-
 	PATH=$2
   local node_version
 
