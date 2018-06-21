@@ -23,13 +23,20 @@ spaceship_async_job_load_tox() {
   async_job spaceship spaceship_async_job_tox "$PWD"
 }
 
+tox_test() {
+  # test code if tox config present
+  { command tox -q >/dev/null 2>&1 \
+    && { ret_code='OK' } \
+    || {  ret_code='FAIL' }}
+  echo $ret_code
+}
+
 spaceship_async_job_tox() {
   builtin cd -q "$1" 2>/dev/null
-  [[ -f tox.ini ]] \
-    && { command tox -q >/dev/null 2>&1 \
-      && { echo 'OK' } \
-      || { echo 'FAIL' }} \
-    || echo ""
+  # test directly if tox.ini present in current folder...
+  { [[ -f tox.ini ]] && tox_test } || \
+    # ...or try tox return, little longer
+    { command tox --notest 2>&1 | grep -q 'ERROR: toxini' && return "" || tox_test }
 }
 
 # Shows tox status
