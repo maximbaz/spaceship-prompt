@@ -1,7 +1,7 @@
 # Changes in this fork
 
 - Much faster async prompt rendering using `zsh-async`
-  - Currently async sections: `git_branch`, `git_status`, `kubecontext`, `azure`
+  - Currently async sections: `git_branch`, `git_status`, `kubecontext`, `azure`, `tox`
 - No more wrapper `git` section, use `git_branch` and `git_status` instead
 - My own implementation of "actionable" `git_status` section
 - Some PRs merged and issues fixed that are still open in upstream
