@@ -29,7 +29,7 @@ spaceship_async_job_load_tox() {
 spaceship_async_job_tox() {
   builtin cd -q "$1" 2>/dev/null
   setopt extendedglob
-  [[ -f $(echo (../)#tox.ini(:a)) ]] || return
+  test -f (../)#tox.ini(:a) || return
   tox -q >/dev/null 2>&1 && echo 'OK' || echo 'FAIL'
 }
 
