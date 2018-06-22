@@ -67,6 +67,7 @@ if [ -z "$SPACESHIP_PROMPT_ORDER" ]; then
     dotnet        # .NET section
     ember         # Ember.js section
     kubecontext   # Kubectl context section
+    tox           # Tox section
     exec_time     # Execution time
     line_sep      # Line break
     battery       # Battery level and status

@@ -15,6 +15,7 @@ SPACESHIP_TOX_COLOR_OK="${SPACESHIP_TOX_COLOR_OK="green"}"
 SPACESHIP_TOX_SYMBOL_FAIL="${SPACESHIP_TOX_SYMBOL_FAIL="\u2718 "}"
 SPACESHIP_TOX_SYMBOL_OK="${SPACESHIP_TOX_SYMBOL_OK="\u2714 "}"
 
+
 # ------------------------------------------------------------------------------
 # Section
 # ------------------------------------------------------------------------------
