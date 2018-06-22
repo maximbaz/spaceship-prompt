@@ -39,7 +39,6 @@ spaceship_tox() {
   [[ "${SPACESHIP_ASYNC_RESULTS[spaceship_async_job_tox]}" == "OK" ]] && { SPACESHIP_TOX_COLOR="${SPACESHIP_TOX_COLOR_OK}"; SPACESHIP_TOX_SYMBOL="${SPACESHIP_TOX_SYMBOL_OK}" }
   [[ "${SPACESHIP_ASYNC_RESULTS[spaceship_async_job_tox]}" == "FAIL" ]] && { SPACESHIP_TOX_COLOR="${SPACESHIP_TOX_COLOR_FAIL}"; SPACESHIP_TOX_SYMBOL="${SPACESHIP_TOX_SYMBOL_FAIL}" }
 
-  [[ $SPACE ]]
   spaceship::section \
     "$SPACESHIP_TOX_COLOR" \
     "$SPACESHIP_TOX_PREFIX" \
