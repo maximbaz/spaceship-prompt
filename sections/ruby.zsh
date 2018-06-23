@@ -22,17 +22,19 @@ SPACESHIP_RUBY_COLOR="${SPACESHIP_RUBY_COLOR="red"}"
 spaceship_async_job_load_ruby() {
   [[ $SPACESHIP_RUBY_SHOW == false ]] && return
 
-  # Show versions only for Ruby-specific folders
-  [[ -f Gemfile || -f Rakefile || -n *.rb(#qN^/) ]] || return
-
-  async_job spaceship spaceship_async_job_ruby
+  async_job spaceship spaceship_async_job_ruby $PWD
 }
 
 spaceship_async_job_ruby() {
-  local 'ruby_version'
+  builtin cd -q "$1" 2>/dev/null
 
-  if spaceship::exists rvm-prompt; then
-    ruby_version=$(rvm-prompt i v g)
+  # Show versions only for Ruby-specific folders
+  setopt extendedglob
+  test -f Gemfile || test -f Rakefile || test -f "(../)#.ruby-version" || test -n *.rb(#qN^/) || return
+
+  local 'ruby_version'
+  if spaceship::exists rvm; then
+    ruby_version=$(rvm current)
   elif spaceship::exists chruby; then
     ruby_version=$(chruby | sed -n -e 's/ \* //p')
   elif spaceship::exists rbenv; then
