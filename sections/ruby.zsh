@@ -20,17 +20,16 @@ SPACESHIP_RUBY_COLOR="${SPACESHIP_RUBY_COLOR="red"}"
 
 # Show current version of Ruby
 spaceship_async_job_load_ruby() {
-
   [[ $SPACESHIP_RUBY_SHOW == false ]] && return
 
   async_job spaceship spaceship_async_job_ruby $PWD
 }
 
 spaceship_async_job_ruby() {
-  setopt extendedglob
   builtin cd -q "$1" 2>/dev/null
 
   # Show versions only for Ruby-specific folders
+  setopt extendedglob
   test -f Gemfile || test -f Rakefile || test -f "(../)#.ruby-version" || test -n *.rb(#qN^/) || return
 
   local ruby_version
