@@ -28,7 +28,13 @@ spaceship_async_job_load_kubecontext() {
 }
 
 spaceship_async_job_kubecontext() {
-  echo $(kubectl config current-context 2>/dev/null)
+  local kube_context=$(kubectl config current-context 2>/dev/null)
+  [[ -z $kube_context ]] && return
+
+  local kube_namespace=$(kubectl config view -o jsonpath="{.contexts[?(@.name == \"${kube_context}\")].context.namespace}" 2>/dev/null)
+  [[ -n $kube_namespace && "$kube_namespace" != "default" ]] && kube_context="$kube_context ($kube_namespace)"
+
+  echo "$kube_context"
 }
 
 # Show current context in kubectl
