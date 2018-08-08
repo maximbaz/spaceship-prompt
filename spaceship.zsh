@@ -139,15 +139,6 @@ spaceship::deprecated SPACESHIP_BATTERY_FULL_SYMBOL "Use %BSPACESHIP_BATTERY_SYM
 # An entry point of prompt
 # ------------------------------------------------------------------------------
 
-# $RPROMPT
-# Optional (right) prompt
-spaceship_rprompt() {
-  # Retrieve exit code of last command to use in exit_code
-  RETVAL=$?
-
-  spaceship::compose_prompt $SPACESHIP_RPROMPT_ORDER
-}
-
 # PS2
 # Continuation interactive prompt
 spaceship_ps2() {
@@ -176,6 +167,7 @@ spaceship_async_callback() {
 
   SPACESHIP_ASYNC_NEED_REDRAW_PROMPT=0
   PROMPT=$(spaceship::compose_prompt $SPACESHIP_PROMPT_ORDER)
+  RPROMPT=$(spaceship::compose_prompt $SPACESHIP_RPROMPT_ORDER)
   zle .reset-prompt
   zle -R
 }
@@ -209,7 +201,6 @@ prompt_spaceship_setup() {
 
   # Expose Spaceship to environment variables
   PS2='$(spaceship_ps2)'
-  RPS1='$(spaceship_rprompt)'
 }
 
 # ------------------------------------------------------------------------------
