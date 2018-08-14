@@ -19,19 +19,32 @@ SPACESHIP_RUST_COLOR="${SPACESHIP_RUST_COLOR="red"}"
 # ------------------------------------------------------------------------------
 
 # Show current version of Rust
-spaceship_rust() {
+spaceship_async_job_load_rust() {
   [[ $SPACESHIP_RUST_SHOW == false ]] && return
 
+    async_job spaceship spaceship_async_job_rust $PWD
+}
+
+spaceship_async_job_rust() {
+  builtin cd -q $1 2>/dev/null
+
   # If there are Rust-specific files in current directory
+  setopt extendedglob
   [[ -f Cargo.toml || -n *.rs(#qN^/) ]] || return
 
   spaceship::exists rustc || return
 
   local rust_version=$(rustc --version | grep --color=never -oE '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]')
 
+  echo "v$rust_version"
+}
+
+spaceship_rust() {
+  [[ -z "${SPACESHIP_ASYNC_RESULTS[spaceship_async_job_rust]}" ]] && return
+
   spaceship::section \
     "$SPACESHIP_RUST_COLOR" \
     "$SPACESHIP_RUST_PREFIX" \
-    "${SPACESHIP_RUST_SYMBOL}v${rust_version}" \
+    "${SPACESHIP_RUST_SYMBOL}${SPACESHIP_ASYNC_RESULTS[spaceship_async_job_rust]}" \
     "$SPACESHIP_RUST_SUFFIX"
 }
