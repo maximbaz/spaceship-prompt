@@ -20,12 +20,10 @@ SPACESHIP_GIT_BRANCH_COLOR="${SPACESHIP_GIT_BRANCH_COLOR="magenta"}"
 spaceship_async_job_load_git_branch() {
   [[ $SPACESHIP_GIT_BRANCH_SHOW == false ]] && return
 
-  async_job spaceship spaceship_async_job_git_branch "$PWD"
+  async_job spaceship spaceship_async_job_git_branch
 }
 
 spaceship_async_job_git_branch() {
-  builtin cd -q "$1" 2>/dev/null
-
   zstyle ':vcs_info:*' enable git
   zstyle ':vcs_info:git*' formats '%b'
   zstyle ':vcs_info:git*' actionformats '%b|%a'

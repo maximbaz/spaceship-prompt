@@ -35,12 +35,10 @@ SPACESHIP_GIT_STATUS_DIVERGED_COLOR="${SPACESHIP_GIT_STATUS_DIVERGED_COLOR="yell
 spaceship_async_job_load_git_status() {
   [[ $SPACESHIP_GIT_STATUS_SHOW == false ]] && return
 
-  async_job spaceship spaceship_async_job_git_status "$PWD"
+  async_job spaceship spaceship_async_job_git_status
 }
 
 spaceship_async_job_git_status() {
-  builtin cd -q "$1" 2>/dev/null
-
   spaceship::is_git || return
 
   local INDEX git_status=""

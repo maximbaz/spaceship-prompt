@@ -24,11 +24,10 @@ SPACESHIP_TOX_SYMBOL_OK="${SPACESHIP_TOX_SYMBOL_OK="\u2714 "}"
 spaceship_async_job_load_tox() {
   [[ $SPACESHIP_TOX_SHOW == false ]] && return
 
-  async_job spaceship spaceship_async_job_tox "$PWD"
+  async_job spaceship spaceship_async_job_tox
 }
 
 spaceship_async_job_tox() {
-  builtin cd -q "$1" 2>/dev/null
   setopt extendedglob
   test -f (../)#tox.ini || return
   tox -q >/dev/null 2>&1 && echo 'OK' || echo 'FAIL'
