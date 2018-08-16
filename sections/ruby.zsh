@@ -27,7 +27,6 @@ spaceship_async_job_load_ruby() {
 
 spaceship_async_job_ruby() {
   # Show versions only for Ruby-specific folders
-  setopt extendedglob
   test -f Gemfile || test -f Rakefile || test -f (../)#.ruby-version || test -n *.rb(#qN^/) || return
 
   local 'ruby_version'

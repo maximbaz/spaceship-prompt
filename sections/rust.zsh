@@ -23,12 +23,11 @@ SPACESHIP_RUST_VERBOSE_VERSION="${SPACESHIP_RUST_VERBOSE_VERSION=false}"
 spaceship_async_job_load_rust() {
   [[ $SPACESHIP_RUST_SHOW == false ]] && return
 
-    async_job spaceship spaceship_async_job_rust
+  async_job spaceship spaceship_async_job_rust
 }
 
 spaceship_async_job_rust() {
   # If there are Rust-specific files in current directory
-  setopt extendedglob
   [[ -f Cargo.toml || -n *.rs(#qN^/) ]] || return
 
   spaceship::exists rustc || return

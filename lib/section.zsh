@@ -35,12 +35,6 @@ spaceship::section() {
 # USAGE:
 #   spaceship::async_load_prompt [section...]
 spaceship::async_load_prompt() {
-  # Option EXTENDED_GLOB is set locally to force filename generation on
-  # argument to conditions, i.e. allow usage of explicit glob qualifier (#q).
-  # See the description of filename generation in
-  # http://zsh.sourceforge.net/Doc/Release/Conditional-Expressions.html
-  setopt EXTENDED_GLOB LOCAL_OPTIONS
-
   # Treat the first argument as list of prompt sections
   # Load sections asynchronously if they provide such API.
   for section in $@; do
