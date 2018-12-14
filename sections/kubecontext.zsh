@@ -31,8 +31,10 @@ spaceship_async_job_kubecontext() {
   local kube_context=$(kubectl config current-context 2>/dev/null)
   [[ -z $kube_context ]] && return
 
-  local kube_namespace=$(kubectl config view -o jsonpath="{.contexts[?(@.name == \"${kube_context}\")].context.namespace}" 2>/dev/null)
-  [[ -n $kube_namespace && "$kube_namespace" != "default" ]] && kube_context="$kube_context ($kube_namespace)"
+  if [[ $SPACESHIP_KUBECONTEXT_NAMESPACE_SHOW == true ]]; then
+    local kube_namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}' 2>/dev/null)
+    [[ -n $kube_namespace && "$kube_namespace" != "default" ]] && kube_context="$kube_context ($kube_namespace)"
+  fi
 
   echo "$kube_context"
 }
@@ -41,12 +43,7 @@ spaceship_async_job_kubecontext() {
 spaceship_kubecontext() {
   [[ -z "${SPACESHIP_ASYNC_RESULTS[spaceship_async_job_kubecontext]}" ]] && return
 
-  if [[ $SPACESHIP_KUBECONTEXT_NAMESPACE_SHOW == true ]]; then
-    local kube_namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}' 2>/dev/null)
-    [[ -n $kube_namespace && "$kube_namespace" != "default" ]] && kube_context="$kube_context ($kube_namespace)"
-  fi
-
-  # Apply custom color to section if $kube_context matches a pattern defined in SPACESHIP_KUBECONTEXT_COLOR_GROUPS array.
+  # Apply custom color to section if value matches a pattern defined in SPACESHIP_KUBECONTEXT_COLOR_GROUPS array.
   # See Options.md for usage example.
   local len=${#SPACESHIP_KUBECONTEXT_COLOR_GROUPS[@]}
   local it_to=$((len / 2))
@@ -55,7 +52,7 @@ spaceship_kubecontext() {
     local idx=$(((i - 1) * 2))
     local color="${SPACESHIP_KUBECONTEXT_COLOR_GROUPS[$idx + 1]}"
     local pattern="${SPACESHIP_KUBECONTEXT_COLOR_GROUPS[$idx + 2]}"
-    if [[ "$kube_context" =~ "$pattern" ]]; then
+    if [[ "${SPACESHIP_ASYNC_RESULTS[spaceship_async_job_kubecontext]}" =~ "$pattern" ]]; then
       section_color=$color
       break
     fi
