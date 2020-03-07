@@ -1,3 +1,9 @@
+I have switched to [powerlevel10k](https://github.com/romkatv/powerlevel10k) and I highly recommend you to check it out as well.
+
+This fork is deprecated and not being maintained.
+
+---
+
 # Changes in this fork
 
 - Much faster async prompt rendering using `zsh-async`
